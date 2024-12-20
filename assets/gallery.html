@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图标图鉴</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .rarity-section {
+            margin-bottom: 30px;
+        }
+
+        .rarity-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .icon-wrapper {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .icon-wrapper svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 5px;
+        }
+
+        .icon-index {
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* 稀有度样式 */
+        .title-common {
+            background: #3a3a3a;
+        }
+
+        .title-rare {
+            background: #5e7ce2;
+        }
+
+        .title-epic {
+            background: #c054ff;
+        }
+
+        .title-legendary {
+            background: linear-gradient(45deg, #ffd700, #ff5733);
+        }
+
+        /* 图标样式 */
+        .icon-common {
+            fill: #555555;
+        }
+
+        .icon-rare {
+            fill: #5e7ce2;
+            filter: drop-shadow(0 0 2px #789aff);
+        }
+
+        .icon-epic {
+            fill: #c054ff;
+            filter: drop-shadow(0 0 3px #672f92);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .icon-legendary {
+            animation: rainbow 4s linear infinite;
+            filter: drop-shadow(0 0 5px gold);
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 3px #672f92); }
+            50% { filter: drop-shadow(0 0 8px #c054ff); }
+        }
+
+        @keyframes rainbow {
+            0% { fill: #ffd700; }
+            25% { fill: #ff5733; }
+            50% { fill: #ff3399; }
+            75% { fill: #ff5733; }
+            100% { fill: #ffd700; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>图标图鉴</h1>
+        <div id="iconGallery"></div>
+    </div>
+
+    <script src="icons-data.js"></script>
+    <script>
+        function createGallery() {
+            const gallery = document.getElementById('iconGallery');
+            const rarityOrder = ['common', 'rare', 'epic', 'legendary'];
+            
+            rarityOrder.forEach(rarity => {
+                const range = rarityRanges[rarity];
+                const section = document.createElement('div');
+                section.className = 'rarity-section';
+                
+                // 创建标题
+                const title = document.createElement('div');
+                title.className = `rarity-title title-${rarity}`;
+                title.textContent = `${rarity.charAt(0).toUpperCase() + rarity.slice(1)} (${range[0]}-${range[1]})`;
+                section.appendChild(title);
+                
+                // 创建图标网格
+                const grid = document.createElement('div');
+                grid.className = 'icons-grid';
+                
+                // 添加该稀有度的所有图标
+                for(let i = range[0]; i <= range[1]; i++) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'icon-wrapper';
+                    wrapper.innerHTML = renderIcon(i);
+                    
+                    const index = document.createElement('div');
+                    index.className = 'icon-index';
+                    index.textContent = `#${i}`;
+                    wrapper.appendChild(index);
+                    
+                    grid.appendChild(wrapper);
+                }
+                
+                section.appendChild(grid);
+                gallery.appendChild(section);
+            });
+        }
+
+        // 页面加载完成后创建图鉴
+        document.addEventListener('DOMContentLoaded', createGallery);
+    </script>
+</body>
+</html>
