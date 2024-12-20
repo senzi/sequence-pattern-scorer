@@ -1,0 +1,15 @@
+{
+  "name": "sequence-pattern-scorer",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run clean && npm run copy && npm run minify",
+    "clean": "rimraf dist",
+    "copy": "copyfiles -f index.html style.css LICENSE README.md dist",
+    "minify": "terser icons-data.js -o dist/icons-data.js -c passes=3 -m toplevel=true,reserved=['renderIcon','iconData'] --compress dead_code=true,drop_debugger=true --no-source-map && terser score-calculator.js -o dist/score-calculator.js -c passes=3 -m toplevel=true,reserved=['calculateIconIndex'] --compress dead_code=true,drop_debugger=true --no-source-map"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "rimraf": "^5.0.5",
+    "terser": "^5.37.0"
+  }
+}

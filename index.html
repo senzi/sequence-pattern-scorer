@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无意义收集</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">无意义收集</h1>
+            <div class="collection-count">收集度：<span id="collectionCount">0/22</span></div>
+        </div>
+
+        <div class="draw-section">
+            <input type="text" class="number-input" id="numberInput" maxlength="12" placeholder="输入数字" pattern="\d*"
+                inputmode="numeric">
+            <button class="draw-button" onclick="draw()">抽取无意义之物</button>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <!-- 抽取结果将在这里显示 -->
+        </div>
+
+        <div class="collection-grid" id="collectionGrid">
+            <!-- 图鉴将在这里显示 -->
+        </div>
+    </div>
+
+    <script src="icons-data.js"></script>
+    <script src="score-calculator.js"></script>
+    <script>
+        // 初始化收藏数据
+        let collection = JSON.parse(localStorage.getItem('iconCollection')) || {};
+
+        // 输入框验证
+        const numberInput = document.getElementById('numberInput');
+        numberInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // 抽取函数
+        function draw() {
+            const number = numberInput.value;
+            if (!number) return;
+
+            const index = calculateIconIndex(number);
+            if (index !== null && iconData[index]) {
+                // 显示结果
+                const resultSection = document.getElementById('resultSection');
+                resultSection.innerHTML = `
+            <div class="result-icon">${renderIcon(index)}</div>
+            <div class="result-index">#${index}</div>
+        `;
+
+                // 添加到收藏
+                collection[index] = true;
+                localStorage.setItem('iconCollection', JSON.stringify(collection));
+
+                // 更新图鉴和收集度
+                updateCollection();
+            }
+        }
+
+        // 更新图鉴显示
+        function updateCollection() {
+            const grid = document.getElementById('collectionGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 23; i++) {
+                const item = document.createElement('div');
+                item.className = 'collection-item';
+
+                if (collection[i]) {
+                    item.innerHTML = `
+                        <div class="collection-icon">${renderIcon(i)}</div>
+                        <div class="collection-index">#${i}</div>
+                    `;
+                } else {
+                    item.innerHTML = `
+                        <div class="unknown-icon">?</div>
+                        <div class="collection-index">#${i}</div>
+                    `;
+                }
+
+                grid.appendChild(item);
+            }
+
+            // 更新收集度
+            const count = Object.keys(collection).length;
+            document.getElementById('collectionCount').textContent = `${count}/22`;
+        }
+
+        // 初始化显示
+        updateCollection();
+    </script>
+</body>
+
+</html>

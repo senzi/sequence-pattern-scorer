@@ -1,0 +1,199 @@
+:root {
+    --input-height: 60px;
+    --button-height: 50px;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 顶部区域 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 28px;
+    margin: 0;
+}
+
+.collection-count {
+    font-size: 18px;
+}
+
+/* 抽取区域 */
+.draw-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.number-input {
+    width: 100%;
+    height: var(--input-height);
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    
+    /* 等宽字体设置 */
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    font-weight: 700;  /* 加粗 */
+    letter-spacing: 0.5em;  /* 字符间距 */
+    padding: 0 15px;  /* 左右内边距 */
+    
+    /* 居中显示 */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 响应式字体大小 */
+@media (min-width: 768px) {
+    .number-input {
+        font-size: min(3.2vw, 32px);  /* 桌面端最大32px */
+    }
+}
+
+@media (max-width: 767px) {
+    .number-input {
+        font-size: min(5vw, 24px);    /* 移动端最大24px */
+        letter-spacing: 0.3em;         /* 移动端稍微收紧间距 */
+    }
+}
+
+/* 输入框placeholder样式 */
+.number-input::placeholder {
+    color: #555;
+    opacity: 1;
+    letter-spacing: normal;  /* 提示文字使用正常间距 */
+}
+
+/* 输入框聚焦时的样式 */
+.number-input:focus {
+    outline: none;
+    border-color: #555;
+    background: #222;
+}
+
+.draw-button {
+    width: 200px;
+    height: var(--button-height);
+    background: #333;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.draw-button:hover {
+    background: #444;
+}
+
+/* 抽取结果区域 */
+.result-section {
+    height: 200px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.result-index {
+    font-size: 16px;
+    color: #888;
+}
+
+/* 图鉴区域 */
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+.collection-item {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.collection-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.collection-index {
+    font-size: 12px;
+    color: #888;
+}
+
+.unknown-icon {
+    color: #666;
+    font-size: 30px;
+}
+
+/* 稀有度样式 */
+.icon-common {
+    fill: #555555;
+}
+
+.icon-rare {
+    fill: #5e7ce2;
+    filter: drop-shadow(0 0 2px #789aff);
+}
+
+.icon-epic {
+    fill: #c054ff;
+    filter: drop-shadow(0 0 3px #672f92);
+    animation: glow 2s ease-in-out infinite;
+}
+
+.icon-legendary {
+    animation: rainbow 4s linear infinite;
+    filter: drop-shadow(0 0 5px gold);
+}
+
+@keyframes glow {
+    0%, 100% { filter: drop-shadow(0 0 3px #672f92); }
+    50% { filter: drop-shadow(0 0 8px #c054ff); }
+}
+
+@keyframes rainbow {
+    0% { fill: #ffd700; }
+    25% { fill: #ff5733; }
+    50% { fill: #ff3399; }
+    75% { fill: #ff5733; }
+    100% { fill: #ffd700; }
+}
